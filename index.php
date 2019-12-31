@@ -4,24 +4,41 @@ set_time_limit(0);
 header('Access-Control-Allow-Origin: *');
 
 /**
- * @packcage [SosmedStats]
+ * @packcage [sosmedstats]
  * @Author Muaz Ramdany
  * @blog https://www.webmestudio.xyz/
  * @version 1.0
- * ------------------------------------------------------------------------- 
- * Twitter get followers count only
- * Youtube get subscriber count only
  * -------------------------------------------------------------------------
  * How to Access
- * [Twitter] https://domain.com/?provider=twitter&username=XXXXXXXXXXXX
- * [Youtube] https://domain.com/?provider=youtube&channel_id=XXXXXXXXXXXX
+ * [Twitter] https://domain.com/?provider=twitter&username={value}
+ * [Youtube] https://domain.com/?provider=youtube&channel_id={value}
+ * [facebook] https://domain.com/?provider=facebook&type=fanspage&username={value}&param={likes,followers}
+ * [instagram] https://domain.com/?provider=instagram&username={value}&param={followers,following}
  */
 
 $provider 			= isset($_GET['provider']) ? $_GET['provider'] : null;
+
+$fb_username        = isset($_GET['username']) ? $_GET['username'] : null;
+$fb_type            = isset($_GET['type']) ? $_GET['type'] : null;
+$fb_param           = isset($_GET['param']) ? $_GET['param'] : null;
+
 $twitter_username 	= isset($_GET['username']) ? $_GET['username'] : null;
+
 $youtube_channel  	= isset($_GET['channel_id']) ? $_GET['channel_id'] : null;
 
+$instagram_username  	= isset($_GET['username']) ? $_GET['username'] : null;
+$instagram_param  	    = isset($_GET['param']) ? $_GET['param'] : null;
+
 switch($provider) {
+    
+    case 'facebook':
+		if($fb_username && $fb_type == 'fanspage') {
+            getFBFansPageReaction($fb_username, $fb_param);
+		}
+		else {
+			httpStatus(403);
+		}
+	break;
 	
 	case 'twitter':
 		if($twitter_username) {
@@ -40,6 +57,15 @@ switch($provider) {
 			httpStatus(403);
 		}
 	break;
+    
+    case 'instagram':
+		if($instagram_username) {
+			getInstagramReaction($instagram_username, $instagram_param);
+		}
+		else {
+			httpStatus(403);
+		}
+	break;
 	
 	default:
 		httpStatus(403);
@@ -47,26 +73,30 @@ switch($provider) {
 }
 
 function getTwitterFollowers($twitter_username) {
-	# Get Twitter data :
+    if($twitter_username == null) {
+        httpStatus(403);
+        exit;
+    }
+    
     $twitter_data = file_get_contents('https://mobile.twitter.com/'.$twitter_username);
-    # Regex to get follower count :
     preg_match('#followers">\n.*<div class="statnum">([0-9,]*)</div>#', $twitter_data, $match);
     $twitter['count'] = str_replace(',', '', $match[1]);
     $twitter['count'] = intval($twitter['count']);
-	// returning json data
 	$data = [ 'followers' => $twitter['count'] ];
 	echo json_encode($data);
 }
 
 function getYoutubeSubscriber($youtube_channel_id) {
-	// Change channelid value to match your YouTube channel ID
+    if($youtube_channel_id == null) {
+        httpStatus(403);
+        exit;
+    }
+    
 	$url = 'https://www.youtube.com/subscribe_embed?channelid='. $youtube_channel_id;
-	// Fetch the Subscribe button HTML
 	$button_html = file_get_contents($url);
-	// Extract the subscriber count
 	$found_subscribers = preg_match( '/="0">(\d+)</i', $button_html, $matches );
+    
 	if ( $found_subscribers && isset( $matches[1] ) ) {
-		// returning json data
 		$data = [ 'subscriber' => intval($matches[1]) ];
 		echo json_encode($data);
 	}
@@ -74,6 +104,117 @@ function getYoutubeSubscriber($youtube_channel_id) {
 		$data = [ 'subscriber' => @intval($matches[1]) ];
 		echo json_encode($data);
 	}
+}
+
+function getInstagramReaction($username, $param) {
+    if($username == null || $param == null) {
+        httpStatus(403);
+        exit;
+    }
+    
+    // Extract HTML using curl
+    $ch = curl_init();
+    
+    curl_setopt($ch, CURLOPT_HEADER, 0);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_URL, 'https://www.instagram.com/'.$username);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+    curl_setopt($ch, CURLOPT_USERAGENT,'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36');
+    
+    $data = curl_exec($ch);
+    curl_close($ch);
+    
+    // Load HTML to DOM Object
+    $dom = new DOMDocument();
+    @$dom->loadHTML($data);
+    
+     // Parse DOM to get Meta Description
+    $metas = $dom->getElementsByTagName('meta');
+    $body = "";
+    for ($i = 0; $i < $metas->length; $i ++) {
+        $meta = $metas->item($i);
+        if ($meta->getAttribute('name') == 'description') {
+            $body = $meta->getAttribute('content');
+        }
+    }
+    
+    preg_match_all('/-\d+|(?!-)\d+/', $body, $match);
+    
+    if($param == 'followers') {
+        $output = [
+            'followers' => $match[0][0]
+        ];
+    }
+    elseif($param == 'following') {
+        $output = [
+            'following' => $match[0][1]
+        ];
+    }
+    else {
+        httpStatus(403);
+        exit;
+    }
+
+    echo json_encode($output); 
+}
+
+function getFBFansPageReaction($username, $param) {    
+    if($username == null || $param == null) {
+        httpStatus(403);
+        exit;
+    }
+    
+    // Extract HTML using curl
+    $ch = curl_init();
+    
+    curl_setopt($ch, CURLOPT_HEADER, 0);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_URL, 'https://m.facebook.com/'.$username.'/community');
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+    curl_setopt($ch, CURLOPT_USERAGENT,'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36');
+    
+    $data = curl_exec($ch);
+    curl_close($ch);
+    
+    // Load HTML to DOM Object
+    $dom = new DOMDocument();
+    @$dom->loadHTML($data);
+    
+    // parse DOM to get div
+    $divs = $dom->getElementsByTagName('div');
+    for ($i = 0; $i < $divs->length; $i ++) {
+        $div = $divs->item($i);
+        $cls = $div->nodeValue;
+        $cls = (int) $cls;
+        if($cls != 0) {
+            $cls_arr[] = $cls;
+        }
+    }
+    
+    $cls_arr = array_unique($cls_arr);
+    $cls_arr = array_values($cls_arr);
+    
+    if(@$cls_arr[0] == null || @$cls_arr[1] == null) {
+        httpStatus(403);
+        exit;
+    }
+    
+    if($param == 'likes') {
+        $output = [
+            'likes' => $cls_arr[0],
+        ];
+    }
+    elseif($param == 'followers') {
+        $output = [
+            'followers' => $cls_arr[1]
+        ];
+    }
+    else {
+        httpStatus(403);
+        exit;
+    }
+    
+    echo json_encode($output); 
 }
 
 function httpStatus($num) {
