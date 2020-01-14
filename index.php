@@ -174,8 +174,6 @@ function getFBFansPageReaction($username, $param) {
     $data = curl_exec($ch);
     curl_close($ch);
     
-    echo $data;
-    
     // Load HTML to DOM Object
     $dom = new DOMDocument();
     @$dom->loadHTML($data);
