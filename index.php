@@ -17,17 +17,13 @@ header('Access-Control-Allow-Origin: *');
  */
 
 $provider 			= isset($_GET['provider']) ? $_GET['provider'] : null;
-
 $fb_username        = isset($_GET['username']) ? $_GET['username'] : null;
 $fb_type            = isset($_GET['type']) ? $_GET['type'] : null;
 $fb_param           = isset($_GET['param']) ? $_GET['param'] : null;
-
 $twitter_username 	= isset($_GET['username']) ? $_GET['username'] : null;
-
 $youtube_channel  	= isset($_GET['channel_id']) ? $_GET['channel_id'] : null;
-
-$instagram_username  	= isset($_GET['username']) ? $_GET['username'] : null;
-$instagram_param  	    = isset($_GET['param']) ? $_GET['param'] : null;
+$instagram_username = isset($_GET['username']) ? $_GET['username'] : null;
+$instagram_param  	= isset($_GET['param']) ? $_GET['param'] : null;
 
 switch($provider) {
     
@@ -164,17 +160,21 @@ function getFBFansPageReaction($username, $param) {
         exit;
     }
     
+    header('Content-Type: text/html');
+    
     // Extract HTML using curl
     $ch = curl_init();
     
     curl_setopt($ch, CURLOPT_HEADER, 0);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_URL, 'https://m.facebook.com/'.$username.'/community');
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-    curl_setopt($ch, CURLOPT_USERAGENT,'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36');
+    curl_setopt($ch, CURLOPT_URL, 'https://m.facebook.com/'.$username.'/community/');
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 0);
+    curl_setopt($ch, CURLOPT_USERAGENT,'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.1) Gecko/20061204 Firefox/2.0.0.1');
     
     $data = curl_exec($ch);
     curl_close($ch);
+    
+    echo $data;
     
     // Load HTML to DOM Object
     $dom = new DOMDocument();
