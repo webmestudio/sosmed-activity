@@ -124,7 +124,7 @@ function getInstagramReaction($username, $param) {
     $data = curl_exec($ch);
     curl_close($ch);
 	
-	var_dump($data);
+	echo($data);
 	
     /*
     // Load HTML to DOM Object
