@@ -107,10 +107,23 @@ function getInstagramReaction($username, $param) {
         httpStatus(403);
         exit;
     }
-	
-	$url = file_get_contents('https://www.instagram.com/'.$username);
-	echo $url;
 
+	// Extract HTML using curl
+    $ch = curl_init();
+    
+    curl_setopt($ch, CURLOPT_HEADER, 0);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_URL, 'https://www.instagram.com/'.$username);
+	// curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json') );
+    //curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
+	//curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+	//curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_USERAGENT,'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36');
+    
+    $data = curl_exec($ch);
+    //curl_close($ch);
+	
+	echo $data;
 	
     /*
     // Load HTML to DOM Object
