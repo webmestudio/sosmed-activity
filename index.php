@@ -109,7 +109,6 @@ function getInstagramReaction($username, $param) {
     }
 	
 	require __DIR__ . '/vendor/autoload.php';
-
 	$crawler = new Smochin\Instagram\Crawler();
 	
 	$user = $crawler->getUser('muazramdany');
