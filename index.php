@@ -102,27 +102,22 @@ function getYoutubeSubscriber($youtube_channel_id) {
 	}
 }
 
-//returns a big old hunk of JSON from a non-private IG account page.
-function scrape_insta($username) {
-	$insta_source = file_get_contents('http://instagram.com/'.$username.'?__a=1');
-	$shards = explode('window._sharedData = ', $insta_source);
-	$insta_json = explode(';</script>', $shards[1]); 
-	$insta_array = json_decode($insta_json[0], TRUE);
-	return $insta_array;
-}
 function getInstagramReaction($username, $param) {
     if($username == null || $param == null) {
         httpStatus(403);
         exit;
     }
 
-	//Supply a username
-	$my_account = $username; 
-
-	//Do the deed
-	$results_array = scrape_insta($my_account);
-
-	print_r($results_array);
+	$username = $username;
+	$insta_source = file_get_contents('http://instagram.com/'.$username);
+	$shards = explode('window._sharedData = ', $insta_source);
+	$insta_json = explode(';</script>', $shards[1]);
+	$results_array = json_decode($insta_json[0], TRUE);
+	for ($i=1; $i < 5; $i++) {
+		 $url_list[] =  $results_array['entry_data']['ProfilePage'][0]['graphql']['user']['edge_owner_to_timeline_media']['edges'][$i]['node']['display_url'];
+	}
+	
+	print_r($url_list);
 	
     /*
     // Load HTML to DOM Object
