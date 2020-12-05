@@ -112,17 +112,18 @@ function getInstagramReaction($username, $param) {
     $ch = curl_init();
     
     curl_setopt($ch, CURLOPT_HEADER, true);
-	//curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json') );
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_URL, 'https://www.instagram.com/'. $username);
 	curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-		'cookie: ig_did=CC4D1C64-729F-4EF7-B6B0-877B5C833068; ig_nrcb=1; csrftoken=nM2FVyVhgpkgUNEkRNe5htOxoQomJXGK; mid=X8reRwAEAAFYSbQKOS4yCD7EEkrD; fbm_124024574287414=base_domain=.instagram.com; fbsr_124024574287414=jXIgEVBdSF-TNeo0Ughzn7rgTEMNOS8z3Zwq2o_gwP0.eyJ1c2VyX2lkIjoiMTY4NjQ5Nzc3OSIsImNvZGUiOiJBUUFZZnphVy1halhFcm9mam1rT2hsTXQ0YjJMY05LZW9pNlV6WjlIZEE4Mld5MVF2ejJVb3hBa3JfS2gxNFFKdHVyWHgzX3lWRXNzSjFhRTRqWS1nUDZ3UjZkTjhRNkZZa3dIcjF3OUJwSlhUc1BaZjVZTDh2clFUUl9jaWRXcWs3ZVJuQzE0SU5TRVJPYkVvbC1zQVZQRU5qZlVKem1ra3pVanJyUlh1Q3FPVkl3N2FqWW5jX2Z1UmxSQnhDWTlYeFhkTnJ6VE9sNXZ2dm9PMEVxaUljWWFIbFJvUHV4RXRha3lJR0tFOW9seXdvMEJpYk9EZGdCQkl0X1lTbWEzMEtRd2YtOVYzbGJqLU5obUxuN2R2MjA2anFqWExPT2NldGVKeFpCV3FVYm8wMExFbExycEUzbXJvb2pkeVNVVFpXdyIsIm9hdXRoX3Rva2VuIjoiRUFBQnd6TGl4bmpZQkFPQkNjMzVQWkFNdjVaQ0s5MlJ0VVpBOFVqYVZpNGE5WDRWbENWU0F3MWFYNXhLRVUyMEtsM1UzbHJKN3ZHTVVUQ3JicHJWWVIwYmtYa1pBcTFYaGYxamNoNEE4cGxDWkIyaXJENVpBODBMb1NWWkFaQ3FKcUd4ZjZ5WUJSanRvbkptSVJlNjk5VkUyNlBmWkF0ejdDSk9PbVpDUGJNMmxWWkNKUVpEWkQiLCJhbGdvcml0aG0iOiJITUFDLVNIQTI1NiIsImlzc3VlZF9hdCI6MTYwNzE0NjEyNn0; urlgen="{\"36.69.141.181\": 7713}:1klQ7n:OlrV3d1lBM0GKS8kz_9GWAHLyFM"',
-		'accept-encoding: gzip, deflate, br'
+		'set-cookie: csrftoken=nM2FVyVhgpkgUNEkRNe5htOxoQomJXGK; Domain=.instagram.com; expires=Sat, 04-Dec-2021 05:28:56 GMT; Max-Age=31449600; Path=/; Secure',
+		'set-cookie: urlgen="{\"36.69.141.181\": 7713}:1klQ7s:Wh42djqO1DNHBI9VNsHtQ1Dp70I"; Domain=.instagram.com; HttpOnly; Path=/; Secure',
+		"origin-trial: AjcL0rumUt87PwHmMhaXS+q6xAH1x9IrsLFeL/ZqUbTbe1c+Cso8nAKcRjvvONAmcB7OxMtj7wnIiBh9BqKJBQEAAAB6eyJvcmlnaW4iOiJodHRwczovL2luc3RhZ3JhbS5jb206NDQzIiwiZmVhdHVyZSI6IkNyb3NzT3JpZ2luT3BlbmVyUG9saWN5UmVwb3J0aW5nIiwiZXhwaXJ5IjoxNjA5NDI3NTI4LCJpc1N1YmRvbWFpbiI6dHJ1ZX0=",
+		"content-security-policy: report-uri https://www.instagram.com/security/csp_report/; default-src 'self' https://www.instagram.com; img-src data: blob: https://*.fbcdn.net https://*.instagram.com https://*.cdninstagram.com https://*.facebook.com https://*.giphy.com; font-src data: https://*.fbcdn.net https://*.instagram.com https://*.cdninstagram.com; media-src 'self' blob: https://www.instagram.com https://*.cdninstagram.com https://*.fbcdn.net; manifest-src 'self' https://www.instagram.com; script-src 'self' https://instagram.com https://www.instagram.com https://*.www.instagram.com https://*.cdninstagram.com wss://www.instagram.com https://*.facebook.com https://*.fbcdn.net https://*.facebook.net 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' https://*.www.instagram.com https://www.instagram.com 'unsafe-inline'; connect-src 'self' https://instagram.com https://www.instagram.com https://*.www.instagram.com https://graph.instagram.com https://*.graph.instagram.com https://*.cdninstagram.com https://api.instagram.com https://i.instagram.com wss://www.instagram.com wss://edge-chat.instagram.com https://*.facebook.com https://*.fbcdn.net https://*.facebook.net chrome-extension://boadgeojelhgndaghljhdicfkmllpafd blob:; worker-src 'self' blob: https://www.instagram.com; frame-src 'self' https://instagram.com https://www.instagram.com https://staticxx.facebook.com https://www.facebook.com https://web.facebook.com https://connect.facebook.net https://m.facebook.com; object-src 'none'; upgrade-insecure-requests"
 	) );
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 	//curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1);
 	//curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 1);
-    curl_setopt($ch, CURLOPT_USERAGENT,'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36');
+    curl_setopt($ch, CURLOPT_USERAGENT,'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36');
     
     $data = curl_exec($ch);
     curl_close($ch);
