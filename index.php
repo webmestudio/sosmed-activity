@@ -108,16 +108,9 @@ function getInstagramReaction($username, $param) {
         exit;
     }
 
-	$username = $username;
 	$insta_source = file_get_contents('http://instagram.com/'.$username.'/?__a=1');
-	$shards = explode('window._sharedData = ', $insta_source);
-	$insta_json = explode(';</script>', $shards[1]);
-	$results_array = json_decode($insta_json[0], TRUE);
-	for ($i=1; $i < 5; $i++) {
-		 $url_list[] =  $results_array['entry_data']['ProfilePage'][0]['graphql']['user']['edge_owner_to_timeline_media']['edges'][$i]['node']['display_url'];
-	}
 	
-	print_r($url_list);
+	echo $insta_source;
 	
     /*
     // Load HTML to DOM Object
