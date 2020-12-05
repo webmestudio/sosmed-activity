@@ -107,23 +107,14 @@ function getInstagramReaction($username, $param) {
         httpStatus(403);
         exit;
     }
-
-	// Extract HTML using curl
-    $ch = curl_init();
-    
-    curl_setopt($ch, CURLOPT_HEADER, 1);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_URL, 'https://www.instagram.com/'.$username .'/?__a=1');
-	// curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json') );
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-	curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 1);
-	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1);
-    curl_setopt($ch, CURLOPT_USERAGENT,'Mozilla/5.0 (Linux; Android 6.0.1; Moto G (4)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Mobile Safari/537.3');
-    
-    $data = curl_exec($ch);
-    curl_close($ch);
 	
-	echo $data;
+	require __DIR__ . '/vendor/autoload.php';
+
+	$crawler = new Smochin\Instagram\Crawler();
+	
+	$user = $crawler->getUser('muazramdany');
+	
+	print_r($user);
 	
     /*
     // Load HTML to DOM Object

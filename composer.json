@@ -7,6 +7,7 @@
         }
     ],
     "require": {
-		"php": "^7.0"
+		"php": "^7.0",
+        "smochin/instagram-php-crawler": "^1.0"
 	}
 }
