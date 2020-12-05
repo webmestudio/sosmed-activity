@@ -1,0 +1,10 @@
+{
+    "name": "unknown/sosmed-get-stats",
+    "authors": [
+        {
+            "name": "webmestudio",
+            "email": "webmestudio@gmail.com"
+        }
+    ],
+    "require": {}
+}
