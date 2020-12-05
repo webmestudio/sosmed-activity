@@ -113,7 +113,7 @@ function getInstagramReaction($username, $param) {
     
     curl_setopt($ch, CURLOPT_HEADER, 1);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_URL, 'https://www.instagram.com/'.$username .'?__a=1');
+    curl_setopt($ch, CURLOPT_URL, 'https://www.instagram.com/'.$username .'/?__a=1');
 	// curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json') );
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 	curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 1);
