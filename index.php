@@ -111,15 +111,18 @@ function getInstagramReaction($username, $param) {
     // Extract HTML using curl
     $ch = curl_init();
     
-    //curl_setopt($ch, CURLOPT_HEADER, 0);
+    curl_setopt($ch, CURLOPT_HEADER, true);
 	//curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json') );
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_URL, 'https://www.instagram.com/'. $username);
-	// curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json') );
+	curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+		'cookie: ig_did=CC4D1C64-729F-4EF7-B6B0-877B5C833068; ig_nrcb=1; csrftoken=nM2FVyVhgpkgUNEkRNe5htOxoQomJXGK; mid=X8reRwAEAAFYSbQKOS4yCD7EEkrD; fbm_124024574287414=base_domain=.instagram.com; fbsr_124024574287414=jXIgEVBdSF-TNeo0Ughzn7rgTEMNOS8z3Zwq2o_gwP0.eyJ1c2VyX2lkIjoiMTY4NjQ5Nzc3OSIsImNvZGUiOiJBUUFZZnphVy1halhFcm9mam1rT2hsTXQ0YjJMY05LZW9pNlV6WjlIZEE4Mld5MVF2ejJVb3hBa3JfS2gxNFFKdHVyWHgzX3lWRXNzSjFhRTRqWS1nUDZ3UjZkTjhRNkZZa3dIcjF3OUJwSlhUc1BaZjVZTDh2clFUUl9jaWRXcWs3ZVJuQzE0SU5TRVJPYkVvbC1zQVZQRU5qZlVKem1ra3pVanJyUlh1Q3FPVkl3N2FqWW5jX2Z1UmxSQnhDWTlYeFhkTnJ6VE9sNXZ2dm9PMEVxaUljWWFIbFJvUHV4RXRha3lJR0tFOW9seXdvMEJpYk9EZGdCQkl0X1lTbWEzMEtRd2YtOVYzbGJqLU5obUxuN2R2MjA2anFqWExPT2NldGVKeFpCV3FVYm8wMExFbExycEUzbXJvb2pkeVNVVFpXdyIsIm9hdXRoX3Rva2VuIjoiRUFBQnd6TGl4bmpZQkFPQkNjMzVQWkFNdjVaQ0s5MlJ0VVpBOFVqYVZpNGE5WDRWbENWU0F3MWFYNXhLRVUyMEtsM1UzbHJKN3ZHTVVUQ3JicHJWWVIwYmtYa1pBcTFYaGYxamNoNEE4cGxDWkIyaXJENVpBODBMb1NWWkFaQ3FKcUd4ZjZ5WUJSanRvbkptSVJlNjk5VkUyNlBmWkF0ejdDSk9PbVpDUGJNMmxWWkNKUVpEWkQiLCJhbGdvcml0aG0iOiJITUFDLVNIQTI1NiIsImlzc3VlZF9hdCI6MTYwNzE0NjEyNn0; urlgen="{\"36.69.141.181\": 7713}:1klQ7n:OlrV3d1lBM0GKS8kz_9GWAHLyFM"',
+		'accept-encoding: gzip, deflate, br'
+	) );
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 	//curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1);
 	//curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 1);
-    //curl_setopt($ch, CURLOPT_USERAGENT,'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36');
+    curl_setopt($ch, CURLOPT_USERAGENT,'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36');
     
     $data = curl_exec($ch);
     curl_close($ch);
