@@ -110,20 +110,37 @@ function getInstagramReaction($username, $param) {
     
     // Extract HTML using curl
     $ch = curl_init();
+	
+	$url = 'https://www.instagram.com/'. $username;
+	
+	$user_agent = array(
+		"Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 ", 
+		"(KHTML, like Gecko) Chrome/48.0.2564.103 Safari/537.36"
+	);
+	
+	$headers = [
+		'Accept-Encoding: gzip, deflate',
+		'Accept-Language: en-US;q=0.6,en;q=0.4',
+		'Connection: keep-alive',
+		'Content-Length: 0',
+		'Host: www.instagram.com',
+		'Origin: https://www.instagram.com',
+		'Referer: https://www.instagram.com/',
+		'User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.103 Safari/537.36', 
+		'X-Instagram-AJAX: 1',
+		'X-Requested-With: XMLHttpRequest'  
+	];
     
-    curl_setopt($ch, CURLOPT_HEADER, true);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_URL, 'https://www.instagram.com/'. $username);
-	curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-		'set-cookie: csrftoken=nM2FVyVhgpkgUNEkRNe5htOxoQomJXGK; Domain=.instagram.com; expires=Sat, 04-Dec-2021 05:28:56 GMT; Max-Age=31449600; Path=/; Secure',
-		'set-cookie: urlgen="{\"36.69.141.181\": 7713}:1klQ7s:Wh42djqO1DNHBI9VNsHtQ1Dp70I"; Domain=.instagram.com; HttpOnly; Path=/; Secure',
-		"origin-trial: AjcL0rumUt87PwHmMhaXS+q6xAH1x9IrsLFeL/ZqUbTbe1c+Cso8nAKcRjvvONAmcB7OxMtj7wnIiBh9BqKJBQEAAAB6eyJvcmlnaW4iOiJodHRwczovL2luc3RhZ3JhbS5jb206NDQzIiwiZmVhdHVyZSI6IkNyb3NzT3JpZ2luT3BlbmVyUG9saWN5UmVwb3J0aW5nIiwiZXhwaXJ5IjoxNjA5NDI3NTI4LCJpc1N1YmRvbWFpbiI6dHJ1ZX0=",
-		"content-security-policy: report-uri https://www.instagram.com/security/csp_report/; default-src 'self' https://www.instagram.com; img-src data: blob: https://*.fbcdn.net https://*.instagram.com https://*.cdninstagram.com https://*.facebook.com https://*.giphy.com; font-src data: https://*.fbcdn.net https://*.instagram.com https://*.cdninstagram.com; media-src 'self' blob: https://www.instagram.com https://*.cdninstagram.com https://*.fbcdn.net; manifest-src 'self' https://www.instagram.com; script-src 'self' https://instagram.com https://www.instagram.com https://*.www.instagram.com https://*.cdninstagram.com wss://www.instagram.com https://*.facebook.com https://*.fbcdn.net https://*.facebook.net 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' https://*.www.instagram.com https://www.instagram.com 'unsafe-inline'; connect-src 'self' https://instagram.com https://www.instagram.com https://*.www.instagram.com https://graph.instagram.com https://*.graph.instagram.com https://*.cdninstagram.com https://api.instagram.com https://i.instagram.com wss://www.instagram.com wss://edge-chat.instagram.com https://*.facebook.com https://*.fbcdn.net https://*.facebook.net chrome-extension://boadgeojelhgndaghljhdicfkmllpafd blob:; worker-src 'self' blob: https://www.instagram.com; frame-src 'self' https://instagram.com https://www.instagram.com https://staticxx.facebook.com https://www.facebook.com https://web.facebook.com https://connect.facebook.net https://m.facebook.com; object-src 'none'; upgrade-insecure-requests"
-	) );
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-	//curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1);
-	//curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 1);
-    curl_setopt($ch, CURLOPT_USERAGENT,'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36');
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+	curl_setopt($ch, CURLOPT_URL, $url);
+	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+	curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+	curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
+	//curl_setopt($ch, CURLOPT_COOKIEFILE, "/tmp/cookie/pruebalogininsta3.txt");
+	curl_setopt($ch, CURLOPT_REFERER, $url);
+	curl_setopt($ch, CURLOPT_HEADER, TRUE);
     
     $data = curl_exec($ch);
     curl_close($ch);
