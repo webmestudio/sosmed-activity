@@ -102,50 +102,27 @@ function getYoutubeSubscriber($youtube_channel_id) {
 	}
 }
 
+//returns a big old hunk of JSON from a non-private IG account page.
+function scrape_insta($username) {
+	$insta_source = file_get_contents('http://instagram.com/'.$username);
+	$shards = explode('window._sharedData = ', $insta_source);
+	$insta_json = explode(';</script>', $shards[1]); 
+	$insta_array = json_decode($insta_json[0], TRUE);
+	return $insta_array;
+}
 function getInstagramReaction($username, $param) {
     if($username == null || $param == null) {
         httpStatus(403);
         exit;
     }
-    
-    // Extract HTML using curl
-    $ch = curl_init();
-	
-	$url = 'https://www.instagram.com/'. $username;
-	
-	$user_agent = array(
-		"Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 ", 
-		"(KHTML, like Gecko) Chrome/48.0.2564.103 Safari/537.36"
-	);
-	
-	$headers = [
-		'Accept-Encoding: gzip, deflate',
-		'Accept-Language: en-US;q=0.6,en;q=0.4',
-		'Connection: keep-alive',
-		'Content-Length: 0',
-		'Host: www.instagram.com',
-		'Origin: https://www.instagram.com',
-		'Referer: https://www.instagram.com/',
-		'User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.103 Safari/537.36', 
-		'X-Instagram-AJAX: 1',
-		'X-Requested-With: XMLHttpRequest'  
-	];
-    
-    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-	curl_setopt($ch, CURLOPT_URL, $url);
-	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-	curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-	curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
-	//curl_setopt($ch, CURLOPT_COOKIEFILE, "/tmp/cookie/pruebalogininsta3.txt");
-	curl_setopt($ch, CURLOPT_REFERER, $url);
-	curl_setopt($ch, CURLOPT_HEADER, TRUE);
-    
-    $data = curl_exec($ch);
-    curl_close($ch);
-	
-	echo($data);
+
+	//Supply a username
+	$my_account = $username; 
+
+	//Do the deed
+	$results_array = scrape_insta($my_account);
+
+	print_r($results_array);
 	
     /*
     // Load HTML to DOM Object
