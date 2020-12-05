@@ -123,7 +123,10 @@ function getInstagramReaction($username, $param) {
     
     $data = curl_exec($ch);
     curl_close($ch);
-    
+	
+	var_dump($data);
+	
+    /*
     // Load HTML to DOM Object
     $dom = new DOMDocument();
     @$dom->loadHTML($data);
@@ -156,6 +159,7 @@ function getInstagramReaction($username, $param) {
     }
 
     echo json_encode($output); 
+	*/
 }
 
 function getFBFansPageReaction($username, $param) {    
