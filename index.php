@@ -111,7 +111,7 @@ function getInstagramReaction($username, $param) {
 	// Extract HTML using curl
     $ch = curl_init();
     
-    curl_setopt($ch, CURLOPT_HEADER, 0);
+    curl_setopt($ch, CURLOPT_HEADER, 1);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($ch, CURLOPT_URL, 'https://www.instagram.com/'.$username);
 	// curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json') );
