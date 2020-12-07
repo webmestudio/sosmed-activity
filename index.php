@@ -1,5 +1,6 @@
 <?php 
 
+require_once __DIR__ . '/vendor/autoload.php';
 set_time_limit(0);
 //header('Access-Control-Allow-Origin: *');
 
@@ -108,48 +109,17 @@ function getInstagramReaction($username, $param) {
         exit;
     }
 
-	// Extract HTML using curl
-    $ch = curl_init();
-    
-    curl_setopt($ch, CURLOPT_HEADER, 0);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_URL, 'https://www.instagram.com/'.$username);
-	// curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json') );
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-	curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-    curl_setopt($ch, CURLOPT_USERAGENT,'Mozilla/5.0 (Linux; Android 6.0.1; Moto G (4)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Mobile Safari/537.3');
-    
-    $data = curl_exec($ch);
-    curl_close($ch);
-	
-	echo $data;
-	
-    /*
-    // Load HTML to DOM Object
-    $dom = new DOMDocument();
-    @$dom->loadHTML($data);
-    
-     // Parse DOM to get Meta Description
-    $metas = $dom->getElementsByTagName('meta');
-    $body = "";
-    for ($i = 0; $i < $metas->length; $i ++) {
-        $meta = $metas->item($i);
-        if ($meta->getAttribute('name') == 'description') {
-            $body = $meta->getAttribute('content');
-        }
-    }
-    
-    preg_match_all('/-\d+|(?!-)\d+/', $body, $match);
+	$instagram = new \InstagramScraper\Instagram(new \GuzzleHttp\Client());
+	$account = $instagram->getAccount($username);
     
     if($param == 'followers') {
         $output = [
-            'followers' => $match[0][0]
+            'followers' => $account->getFollowedByCount()
         ];
     }
     elseif($param == 'following') {
         $output = [
-            'following' => $match[0][1]
+            'following' => $account->getFollowsCount()
         ];
     }
     else {
@@ -158,7 +128,6 @@ function getInstagramReaction($username, $param) {
     }
 
     echo json_encode($output); 
-	*/
 }
 
 function getFBFansPageReaction($username, $param) {    

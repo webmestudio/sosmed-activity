@@ -1,12 +1,6 @@
 {
-    "name": "unknown/sosmed-get-stats",
-    "authors": [
-        {
-            "name": "webmestudio",
-            "email": "webmestudio@gmail.com"
-        }
-    ],
     "require": {
-		"php": "^7.0"
-	}
+        "raiym/instagram-php-scraper": "^0.9.14",
+        "guzzlehttp/guzzle": "^6.5"
+    }
 }
