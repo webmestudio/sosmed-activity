@@ -113,7 +113,7 @@ function getInstagramReaction($username, $param) {
         exit;
     }
 
-	login_inst();
+	echo login_inst();
 	
 	/*
 	$data = curl_inst('https://www.instagram.com/'. $username);
