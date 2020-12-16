@@ -112,10 +112,13 @@ function getInstagramReaction($username, $param) {
         httpStatus(403);
         exit;
     }
+	
+	header('Content-Type: text/html');
 
 	login_inst();
 	sleep(5);
 	
+	/*
 	$data = curl_inst('https://www.instagram.com/'. $username);
     
     // Load HTML to DOM Object
@@ -150,6 +153,7 @@ function getInstagramReaction($username, $param) {
     }
 
     echo json_encode($output); 
+	*/
 }
 
 function getFBFansPageReaction($username, $param) {    
@@ -358,7 +362,9 @@ function login_inst() {
         COOKIEs = array_merge(COOKIEs, COOKIE1);
     }
     */
-    //var_dump($page);      
+    //var_dump($page); 
+
+	return $page;
     curl_close($ch);  
 
 }
