@@ -217,7 +217,7 @@ function getFBFansPageReaction($username, $param) {
 
 function login_inst() {
 
-    // @unlink(dirname(__FILE__)."/".COOKIE);
+    @unlink(dirname(__FILE__)."/".COOKIE);
 
     $url="https://www.instagram.com/accounts/login/?force_classic_login";
 
@@ -234,8 +234,8 @@ function login_inst() {
 
     curl_setopt($ch, CURLOPT_HTTPHEADER, $arrSetHeaders);         
     curl_setopt($ch, CURLOPT_URL, $url);
-    //curl_setopt($ch, CURLOPT_COOKIEJAR, dirname(__FILE__)."/".COOKIE);
-    //curl_setopt($ch, CURLOPT_COOKIEFILE, dirname(__FILE__)."/".COOKIE);
+    curl_setopt($ch, CURLOPT_COOKIEJAR, dirname(__FILE__)."/".COOKIE);
+    curl_setopt($ch, CURLOPT_COOKIEFILE, dirname(__FILE__)."/".COOKIE);
     curl_setopt($ch, CURLOPT_USERAGENT, USERAGENT);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($ch, CURLOPT_HEADER, 1);
@@ -295,7 +295,6 @@ function login_inst() {
     $cookieFileContent = rtrim($cookieFileContent, '; ');
     $cookieFileContent = str_replace('sessionid=""; ', '', $cookieFileContent);
 	
-	/*
     $oldContent = file_get_contents(dirname(__FILE__)."/".COOKIE);
     $oldContArr = explode("\n", $oldContent);
 
@@ -317,7 +316,6 @@ function login_inst() {
             $newContent
         );    
     }
-	*/
 
     $arrSetHeaders = array(
         'origin: https://www.instagram.com',
@@ -336,8 +334,8 @@ function login_inst() {
     );
 
     $ch  = curl_init();
-    //curl_setopt($ch, CURLOPT_COOKIEJAR, dirname(__FILE__)."/".COOKIE);
-    //curl_setopt($ch, CURLOPT_COOKIEFILE, dirname(__FILE__)."/".COOKIE);
+    curl_setopt($ch, CURLOPT_COOKIEJAR, dirname(__FILE__)."/".COOKIE);
+    curl_setopt($ch, CURLOPT_COOKIEFILE, dirname(__FILE__)."/".COOKIE);
     curl_setopt($ch, CURLOPT_USERAGENT, USERAGENT);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($ch, CURLOPT_HEADER, 1);
@@ -383,8 +381,8 @@ function curl_inst($url) {
         'cache-control: max-age=0',
     );
     $ch  = curl_init();
-    //curl_setopt($ch, CURLOPT_COOKIEJAR, dirname(__FILE__)."/!instagram/".COOKIE);
-    //curl_setopt($ch, CURLOPT_COOKIEFILE, dirname(__FILE__)."/!instagram/".COOKIE);
+    curl_setopt($ch, CURLOPT_COOKIEJAR, dirname(__FILE__)."/!instagram/".COOKIE);
+    curl_setopt($ch, CURLOPT_COOKIEFILE, dirname(__FILE__)."/!instagram/".COOKIE);
     curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10); //connection timeout in seconds 
     curl_setopt($ch, CURLOPT_USERAGENT, USERAGENT);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
