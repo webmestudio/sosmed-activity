@@ -112,8 +112,6 @@ function getInstagramReaction($username, $param) {
         httpStatus(403);
         exit;
     }
-	
-	header('Content-Type: text/html');
 
 	login_inst();
 	sleep(5);
