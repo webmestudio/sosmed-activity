@@ -108,24 +108,27 @@ function getInstagramReaction($username, $param) {
         httpStatus(403);
         exit;
     }
-
+	
+	/*
 	$instagram = new \InstagramScraper\Instagram(new \GuzzleHttp\Client());
 	$account = $instagram->getAccount($username);
-    
+    */
+	
     if($param == 'followers') {
         $output = [
-            'followers' => $account->getFollowedByCount()
+            'followers' => 0
         ];
     }
     elseif($param == 'following') {
         $output = [
-            'following' => $account->getFollowsCount()
+            'following' => 0
         ];
     }
     else {
         httpStatus(403);
         exit;
     }
+	
 
     echo json_encode($output); 
 }
