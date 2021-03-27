@@ -146,7 +146,7 @@ function getFBFansPageReaction($username, $param) {
     
     curl_setopt($ch, CURLOPT_HEADER, 0);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_URL, 'https://m.facebook.com/'.$username.'/community/');
+    curl_setopt($ch, CURLOPT_URL, 'https://m.facebook.com/'.$username);
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 0);
 	curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
